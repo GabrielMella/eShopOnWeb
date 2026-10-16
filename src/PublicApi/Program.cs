@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.eShopWeb;
-using Microsoft.eShopWeb.ApplicationCore.Constants;
 using Microsoft.eShopWeb.ApplicationCore.Interfaces;
 using Microsoft.eShopWeb.ApplicationCore.Services;
 using Microsoft.eShopWeb.Infrastructure.Data;
@@ -51,7 +50,7 @@ var baseUrlConfig = configSection.Get<BaseUrlConfiguration>();
 
 builder.Services.AddMemoryCache();
 
-var key = Encoding.ASCII.GetBytes(AuthorizationConstants.JWT_SECRET_KEY);
+var key = Encoding.ASCII.GetBytes(builder.Configuration["JwtSecretKey"] ?? throw new InvalidOperationException("JwtSecretKey not configured"));
 builder.Services.AddAuthentication(config =>
 {
     config.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;

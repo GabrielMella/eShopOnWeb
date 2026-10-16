@@ -1,5 +1,4 @@
-﻿using Microsoft.eShopWeb.ApplicationCore.Constants;
-using Microsoft.IdentityModel.Tokens;
+﻿using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
@@ -35,7 +34,7 @@ namespace PublicApiIntegrationTests
                 claims.Add(new Claim(ClaimTypes.Role, role));
             }
 
-            var key = Encoding.ASCII.GetBytes(AuthorizationConstants.JWT_SECRET_KEY);
+            var key = Encoding.ASCII.GetBytes(Environment.GetEnvironmentVariable("JwtSecretKey") ?? throw new InvalidOperationException("JwtSecretKey environment variable not set for tests"));
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(claims.ToArray()),

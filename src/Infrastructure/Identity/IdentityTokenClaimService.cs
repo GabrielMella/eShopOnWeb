@@ -5,8 +5,8 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.eShopWeb.ApplicationCore.Constants;
 using Microsoft.eShopWeb.ApplicationCore.Interfaces;
+using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 
 namespace Microsoft.eShopWeb.Infrastructure.Identity;
@@ -14,16 +14,18 @@ namespace Microsoft.eShopWeb.Infrastructure.Identity;
 public class IdentityTokenClaimService : ITokenClaimsService
 {
     private readonly UserManager<ApplicationUser> _userManager;
+    private readonly IConfiguration _configuration;
 
-    public IdentityTokenClaimService(UserManager<ApplicationUser> userManager)
+    public IdentityTokenClaimService(UserManager<ApplicationUser> userManager, IConfiguration configuration)
     {
         _userManager = userManager;
+        _configuration = configuration;
     }
 
     public async Task<string> GetTokenAsync(string userName)
     {
         var tokenHandler = new JwtSecurityTokenHandler();
-        var key = Encoding.ASCII.GetBytes(AuthorizationConstants.JWT_SECRET_KEY);
+        var key = Encoding.ASCII.GetBytes(_configuration["JwtSecretKey"] ?? throw new InvalidOperationException("JwtSecretKey not configured"));
         var user = await _userManager.FindByNameAsync(userName);
         if (user == null) throw new UserNotFoundException(userName);
         var roles = await _userManager.GetRolesAsync(user);
