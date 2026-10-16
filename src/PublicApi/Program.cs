@@ -58,14 +58,16 @@ builder.Services.AddAuthentication(config =>
 })
 .AddJwtBearer(config =>
 {
-    config.RequireHttpsMetadata = false;
+    config.RequireHttpsMetadata = true;
     config.SaveToken = true;
     config.TokenValidationParameters = new TokenValidationParameters
     {
         ValidateIssuerSigningKey = true,
         IssuerSigningKey = new SymmetricSecurityKey(key),
-        ValidateIssuer = false,
-        ValidateAudience = false
+        ValidateIssuer = true,
+        ValidIssuer = AuthorizationConstants.JWT_ISSUER,
+        ValidateAudience = true,
+        ValidAudience = AuthorizationConstants.JWT_AUDIENCE
     };
 });
 

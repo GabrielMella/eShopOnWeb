@@ -40,6 +40,8 @@ public class ApiTokenHelper
         {
             Subject = new ClaimsIdentity(claims.ToArray()),
             Expires = DateTime.UtcNow.AddHours(1),
+            Issuer = AuthorizationConstants.JWT_ISSUER,
+            Audience = AuthorizationConstants.JWT_AUDIENCE,
             SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
         };
         var tokenHandler = new JwtSecurityTokenHandler();

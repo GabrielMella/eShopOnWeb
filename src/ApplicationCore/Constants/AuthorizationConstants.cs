@@ -9,4 +9,8 @@ public class AuthorizationConstants
 
     // TODO: Change this to an environment variable
     public const string JWT_SECRET_KEY = "SecretKeyOfDoomThatMustBeAMinimumNumberOfBytes";
+
+    public const string JWT_ISSUER = "Microsoft.eShopWeb";
+
+    public const string JWT_AUDIENCE = "Microsoft.eShopWeb";
 }

@@ -38,6 +38,8 @@ public class IdentityTokenClaimService : ITokenClaimsService
         {
             Subject = new ClaimsIdentity(claims.ToArray()),
             Expires = DateTime.UtcNow.AddDays(7),
+            Issuer = AuthorizationConstants.JWT_ISSUER,
+            Audience = AuthorizationConstants.JWT_AUDIENCE,
             SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
         };
         var token = tokenHandler.CreateToken(tokenDescriptor);
