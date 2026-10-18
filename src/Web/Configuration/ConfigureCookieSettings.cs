@@ -22,13 +22,14 @@ public static class ConfigureCookieSettings
         services.ConfigureApplicationCookie(options =>
         {
             options.EventsType = typeof(RevokeAuthenticationEvents);
-            options.Cookie.HttpOnly = true;
             options.ExpireTimeSpan = TimeSpan.FromMinutes(ValidityMinutesPeriod);
             options.LoginPath = "/Account/Login";
             options.LogoutPath = "/Account/Logout";
             options.Cookie = new CookieBuilder
             {
                 Name = IdentifierCookieName,
+                HttpOnly = true,
+                SecurePolicy = CookieSecurePolicy.Always,
                 IsEssential = true // required for auth to work without explicit user consent; adjust to suit your privacy policy
                 };
         });
