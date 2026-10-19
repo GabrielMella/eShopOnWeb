@@ -8,6 +8,9 @@ services:
       dockerfile: src/Web/Dockerfile
     depends_on:
       - "sqlserver"
+    environment:
+      - ConnectionStrings__CatalogConnection=Server=sqlserver,1433;Integrated Security=true;Initial Catalog=Microsoft.eShopOnWeb.CatalogDb;User Id=sa;Password=${SA_PASSWORD};Trusted_Connection=false;TrustServerCertificate=true;
+      - ConnectionStrings__IdentityConnection=Server=sqlserver,1433;Integrated Security=true;Initial Catalog=Microsoft.eShopOnWeb.Identity;User Id=sa;Password=${SA_PASSWORD};Trusted_Connection=false;TrustServerCertificate=true;
   eshoppublicapi:
     image: ${DOCKER_REGISTRY-}eshoppublicapi
     build:
@@ -15,11 +18,14 @@ services:
       dockerfile: src/PublicApi/Dockerfile
     depends_on:
       - "sqlserver"
+    environment:
+      - ConnectionStrings__CatalogConnection=Server=sqlserver,1433;Integrated Security=true;Initial Catalog=Microsoft.eShopOnWeb.CatalogDb;User Id=sa;Password=${SA_PASSWORD};Trusted_Connection=false;TrustServerCertificate=true;
+      - ConnectionStrings__IdentityConnection=Server=sqlserver,1433;Integrated Security=true;Initial Catalog=Microsoft.eShopOnWeb.Identity;User Id=sa;Password=${SA_PASSWORD};Trusted_Connection=false;TrustServerCertificate=true;
   sqlserver:
     image: mcr.microsoft.com/azure-sql-edge
     ports:
       - "1433:1433"
     environment:
-      - SA_PASSWORD=@someThingComplicated1234
+      - SA_PASSWORD=${SA_PASSWORD}
       - ACCEPT_EULA=Y
 
