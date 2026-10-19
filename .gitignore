@@ -48,6 +48,9 @@ artifacts/
 *_p.c
 *_i.h
 *.ilk
+
+# Local secrets
+.env
 *.meta
 *.obj
 *.pch
