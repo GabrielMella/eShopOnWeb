@@ -139,7 +139,8 @@ using (var scope = app.Services.CreateScope())
         var userManager = scopedProvider.GetRequiredService<UserManager<ApplicationUser>>();
         var roleManager = scopedProvider.GetRequiredService<RoleManager<IdentityRole>>();
         var identityContext = scopedProvider.GetRequiredService<AppIdentityDbContext>();
-        await AppIdentityDbContextSeed.SeedAsync(identityContext, userManager, roleManager);
+        var seedPassword = app.Configuration["SeedPassword"] ?? throw new InvalidOperationException("SeedPassword configuration value is required. Supply it via User Secrets or the SeedPassword environment variable.");
+        await AppIdentityDbContextSeed.SeedAsync(identityContext, userManager, roleManager, seedPassword);
     }
     catch (Exception ex)
     {
